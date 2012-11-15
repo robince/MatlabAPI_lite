@@ -72,129 +72,129 @@ interface
 !      end subroutine mxCopyComplex32ToPtr
 !-----
       subroutine mxCopyComplex16ToPtr(y, pr, pi, n)
+      mwSize, intent(in) :: n
       complex(8), intent(in) :: y(n)
       mwPointer, intent(out) :: pr, pi
-      mwSize, intent(in) :: n
       end subroutine mxCopyComplex16ToPtr
 !-----
       subroutine mxCopyComplex8ToPtr(y, pr, pi, n)
+      mwSize, intent(in) :: n
       complex(4), intent(in) :: y(n)
       mwPointer, intent(out) :: pr, pi
-      mwSize, intent(in) :: n
       end subroutine mxCopyComplex8ToPtr
 !-----
       subroutine mxCopyInteger1ToPtr(y, px, n)
+      mwSize, intent(in) :: n
       integer(1), intent(in) :: y(n)
       mwPointer, intent(out) :: px
-      mwSize, intent(in) :: n
       end subroutine mxCopyInteger1ToPtr
 !-----
       subroutine mxCopyInteger2ToPtr(y, px, n)
+      mwSize, intent(in) :: n
       integer(2), intent(in) :: y(n)
       mwPointer, intent(out) :: px
-      mwSize, intent(in) :: n
       end subroutine mxCopyInteger2ToPtr
 !-----
       subroutine mxCopyInteger4ToPtr(y, px, n)
+      mwSize, intent(in) :: n
       integer(4), intent(in) :: y(n)
       mwPointer, intent(out) :: px
-      mwSize, intent(in) :: n
       end subroutine mxCopyInteger4ToPtr
 !-----
 !      subroutine mxCopyInteger8ToPtr(y, px, n) ! New code below
+!      mwSize, intent(in) :: n
 !      integer(8), intent(in) :: y(n)
 !      mwPointer, intent(out) :: px
-!      mwSize, intent(in) :: n
 !      end subroutine mxCopyInteger8ToPtr
 !-----
       subroutine mxCopyPtrToCharacter(px, y, n) ! Ptr is to a C-style string
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       character(len=*), intent(out) :: y
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToCharacter
 !-----
 !      subroutine mxCopyPtrToComplex32(pr, pi, y, n) ! New code below
+!      mwSize, intent(in) :: n
 !      mwPointer, intent(in) :: pr, pi
 !      complex(16), intent(out) :: y(n)
-!      mwSize, intent(in) :: n
 !      end subroutine mxCopyPtrToComplex32
 !-----
       subroutine mxCopyPtrToComplex16(pr, pi, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: pr, pi
       complex(8), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToComplex16
 !-----
       subroutine mxCopyPtrToComplex8(pr, pi, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: pr, pi
       complex(4), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToComplex8
 !-----
       subroutine mxCopyPtrToInteger1(px, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       integer(1), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToInteger1
 !-----
       subroutine mxCopyPtrToInteger2(px, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       integer(2), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToInteger2
 !-----
       subroutine mxCopyPtrToInteger4(px, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       integer(4), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToInteger4
 !-----
 !      subroutine mxCopyPtrToInteger8(px, y, n) ! New code below
+!      mwSize, intent(in) :: n
 !      mwPointer, intent(in) :: px
 !      integer(8), intent(out) :: y(n)
-!      mwSize, intent(in) :: n
 !      end subroutine mxCopyPtrToInteger8
 !-----
       subroutine mxCopyPtrToPtrArray(px, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       mwPointer, intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToPtrArray
 !-----
       subroutine mxCopyPtrToReal4(px, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       real(4), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToReal4
 !-----
       subroutine mxCopyPtrToReal8(px, y, n)
+      mwSize, intent(in) :: n
       mwPointer, intent(in) :: px
       real(8), intent(out) :: y(n)
-      mwSize, intent(in) :: n
       end subroutine mxCopyPtrToReal8
 !-----
 !      subroutine mxCopyPtrToReal16(px, y, n) ! New code below
+!      mwSize, intent(in) :: n
 !      mwPointer, intent(in) :: px
 !      real(16), intent(out) :: y(n)
-!      mwSize, intent(in) :: n
 !      end subroutine mxCopyPtrToReal16
 !-----
       subroutine mxCopyReal4ToPtr(y, px, n)
+      mwSize, intent(in) :: n
       real(4), intent(in) :: y(n)
       mwPointer, intent(out) :: px
-      mwSize, intent(in) :: n
       end subroutine mxCopyReal4ToPtr
 !-----
       subroutine mxCopyReal8ToPtr(y, px, n)
+      mwSize, intent(in) :: n
       real(8), intent(in) :: y(n)
       mwPointer, intent(out) :: px
-      mwSize, intent(in) :: n
       end subroutine mxCopyReal8ToPtr
 !-----
 !      subroutine mxCopyReal16ToPtr(y, px, n) ! New code below
+!      mwSize, intent(in) :: n
 !      real(16), intent(in) :: y(n)
 !      mwPointer, intent(out) :: px
-!      mwSize, intent(in) :: n
 !      end subroutine mxCopyReal16ToPtr
 !-----
       mwPointer function mxCreateCellArray(ndim, dims)
