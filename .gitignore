@@ -3,4 +3,5 @@
 *.obj
 *.mex*
 *.mod
+*genmod.f90
 .*.F90T
