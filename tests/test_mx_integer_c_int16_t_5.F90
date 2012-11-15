@@ -8,12 +8,12 @@
 !.
 !................................................................................
 !PyF95.hash: 0
-!PyF95.symbol: template_4316070544_integer_c_int16_t_5
-!PyF95.symbol: mexFunction|template_4316070544_integer_c_int16_t_5
-!PyF95.symbol: test_mx_integer_c_int16_t_5|template_4316070544_integer_c_int16_t_5
-!PyF95.symbol: test_explicit_interface|mexFunction|template_4316070544_integer_c_int16_t_5
-!PyF95.symbol: Foo_integer_c_int16_t_5|test_mx_integer_c_int16_t_5|template_4316070544_integer_c_int16_t_5
-!PyF95.symbol: special_4303250512_integer_c_int16_t_5_4322752848|mexFunction|template_4316070544_integer_c_int16_t_5
+!PyF95.symbol: template_4316070608_integer_c_int16_t_5
+!PyF95.symbol: mexFunction|template_4316070608_integer_c_int16_t_5
+!PyF95.symbol: test_mx_integer_c_int16_t_5|template_4316070608_integer_c_int16_t_5
+!PyF95.symbol: test_explicit_interface|mexFunction|template_4316070608_integer_c_int16_t_5
+!PyF95.symbol: Foo_integer_c_int16_t_5|test_mx_integer_c_int16_t_5|template_4316070608_integer_c_int16_t_5
+!PyF95.symbol: special_4303273424_integer_c_int16_t_5_4322548880|mexFunction|template_4316070608_integer_c_int16_t_5
 !PyF95.end
 #include "fintrf.h"
 #include "repidx.h"
@@ -25,7 +25,7 @@
 module test_mx_integer_c_int16_t_5
   use iso_c_binding
   type Foo_integer_c_int16_t_5
-    integer(kind=c_int16_t) :: REPIDX(x,1,5)
+    integer(kind=c_int16_t) :: REPIDX_5(x,1)
   end type Foo_integer_c_int16_t_5
 end module test_mx_integer_c_int16_t_5
 
@@ -38,8 +38,8 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     mwPointer plhs(*), prhs(*)
     integer(4) nlhs, nrhs
 ! LOC
-    integer(kind=c_int16_t), pointer :: REPIDX(X,:,5)
-    integer(kind=c_int16_t), pointer :: REPIDX(Y,:,5)
+    integer(kind=c_int16_t), pointer :: REPIDX_5(X,:)
+    integer(kind=c_int16_t), pointer :: REPIDX_5(Y,:)
     mwSize :: dims(5)
     mwPointer :: mxY, mxloc, fploc, subloc
         integer(kind=c_int16_t), parameter :: val = 2
@@ -62,7 +62,7 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     endif
 
     mxloc = mxGetData( prhs(1) )
-    fploc = loc( REPIDX(X,1,5) )
+    fploc = loc( REPIDX_5(X,1) )
     if( mxloc /= fploc ) then
       call mexErrMsgTxt("fp and mx locations not equal")
     endif
@@ -106,10 +106,10 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     contains
 
     subroutine test_explicit_interface(X, subloc)
-      integer(kind=c_int16_t), pointer, intent(in) :: REPIDX(X,:,5)
+      integer(kind=c_int16_t), pointer, intent(in) :: REPIDX_5(X,:)
       mwPointer, intent(out) :: subloc
 
-      subloc = loc( REPIDX(X,1,5) )
+      subloc = loc( REPIDX_5(X,1) )
     end subroutine test_explicit_interface
 
 end subroutine mexFunction

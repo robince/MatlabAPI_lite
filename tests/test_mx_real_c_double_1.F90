@@ -8,12 +8,12 @@
 !.
 !................................................................................
 !PyF95.hash: 0
-!PyF95.symbol: template_4316070544_real_c_double_1
-!PyF95.symbol: mexFunction|template_4316070544_real_c_double_1
-!PyF95.symbol: test_mx_real_c_double_1|template_4316070544_real_c_double_1
-!PyF95.symbol: test_explicit_interface|mexFunction|template_4316070544_real_c_double_1
-!PyF95.symbol: Foo_real_c_double_1|test_mx_real_c_double_1|template_4316070544_real_c_double_1
-!PyF95.symbol: special_4303250512_real_c_double_1_4316360400|mexFunction|template_4316070544_real_c_double_1
+!PyF95.symbol: template_4316070608_real_c_double_1
+!PyF95.symbol: mexFunction|template_4316070608_real_c_double_1
+!PyF95.symbol: test_mx_real_c_double_1|template_4316070608_real_c_double_1
+!PyF95.symbol: test_explicit_interface|mexFunction|template_4316070608_real_c_double_1
+!PyF95.symbol: Foo_real_c_double_1|test_mx_real_c_double_1|template_4316070608_real_c_double_1
+!PyF95.symbol: special_4303273424_real_c_double_1_4316565456|mexFunction|template_4316070608_real_c_double_1
 !PyF95.end
 #include "fintrf.h"
 #include "repidx.h"
@@ -25,7 +25,7 @@
 module test_mx_real_c_double_1
   use iso_c_binding
   type Foo_real_c_double_1
-    real(kind=c_double) :: REPIDX(x,1,1)
+    real(kind=c_double) :: REPIDX_1(x,1)
   end type Foo_real_c_double_1
 end module test_mx_real_c_double_1
 
@@ -38,8 +38,8 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     mwPointer plhs(*), prhs(*)
     integer(4) nlhs, nrhs
 ! LOC
-    real(kind=c_double), pointer :: REPIDX(X,:,1)
-    real(kind=c_double), pointer :: REPIDX(Y,:,1)
+    real(kind=c_double), pointer :: REPIDX_1(X,:)
+    real(kind=c_double), pointer :: REPIDX_1(Y,:)
     mwSize :: dims(1)
     mwPointer :: mxY, mxloc, fploc, subloc
         real(kind=c_double), parameter :: val = 2.0
@@ -62,7 +62,7 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     endif
 
     mxloc = mxGetData( prhs(1) )
-    fploc = loc( REPIDX(X,1,1) )
+    fploc = loc( REPIDX_1(X,1) )
     if( mxloc /= fploc ) then
       call mexErrMsgTxt("fp and mx locations not equal")
     endif
@@ -106,10 +106,10 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     contains
 
     subroutine test_explicit_interface(X, subloc)
-      real(kind=c_double), pointer, intent(in) :: REPIDX(X,:,1)
+      real(kind=c_double), pointer, intent(in) :: REPIDX_1(X,:)
       mwPointer, intent(out) :: subloc
 
-      subloc = loc( REPIDX(X,1,1) )
+      subloc = loc( REPIDX_1(X,1) )
     end subroutine test_explicit_interface
 
 end subroutine mexFunction
