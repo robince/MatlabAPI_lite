@@ -1,0 +1,30 @@
+! dummy test module to instantiate the mex function templates
+
+module InstantiateMex
+
+  type(Foo<real,c_double,0>) :: x
+  type(Foo<real,c_double,1>) :: x
+  type(Foo<real,c_double,2>) :: x
+  type(Foo<real,c_double,3>) :: x
+  type(Foo<real,c_double,4>) :: x
+  type(Foo<real,c_double,5>) :: x
+  type(Foo<real,c_double,6>) :: x
+  !type(Foo<real,c_double,7>) :: x
+  type(Foo<integer,c_int16_t,0>) :: x
+  type(Foo<integer,c_int16_t,1>) :: x
+  type(Foo<integer,c_int16_t,2>) :: x
+  type(Foo<integer,c_int16_t,3>) :: x
+  type(Foo<integer,c_int16_t,4>) :: x
+  type(Foo<integer,c_int16_t,5>) :: x
+  type(Foo<integer,c_int16_t,6>) :: x
+  !type(Foo<integer,c_int16_t,7>) :: x
+  type(Foo<integer,c_int8_t,0>) :: x
+  type(Foo<integer,c_int8_t,1>) :: x
+  type(Foo<integer,c_int8_t,2>) :: x
+  type(Foo<integer,c_int8_t,3>) :: x
+  type(Foo<integer,c_int8_t,4>) :: x
+  type(Foo<integer,c_int8_t,5>) :: x
+  type(Foo<integer,c_int8_t,6>) :: x
+  !type(Foo<integer,c_int8_t,7>) :: x
+
+end module InstantiateMex
