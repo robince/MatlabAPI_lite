@@ -1,0 +1,519 @@
+!*************************************************************************************
+! 
+!  MATLAB (R) is a trademark of The Mathworks (R) Corporation
+! 
+!  Copyright:   (c) 2009, 2011 by James Tursa
+!  Copyright:   (c) 2012 by Robin Ince
+!  All Rights Reserved
+! 
+!   This code uses the BSD License:
+! 
+!   Redistribution and use in source and binary forms, with or without 
+!   modification, are permitted provided that the following conditions are 
+!   met:
+! 
+!      * Redistributions of source code must retain the above copyright 
+!        notice, this list of conditions and the following disclaimer.
+!      * Redistributions in binary form must reproduce the above copyright 
+!        notice, this list of conditions and the following disclaimer in 
+!        the documentation and/or other materials provided with the distribution
+!       
+!   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+!   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+!   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+!   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+!   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+!   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+!   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+!   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+!   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+!   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+!   POSSIBILITY OF SUCH DAMAGE.
+#include "fintrf.h"
+#include "repidx.h"
+
+module MatlabAPImx
+  use iso_c_binding
+  implicit none
+
+#include 'mxInterface.inc'
+
+  ! instantiate templates from fpGetPr
+  interface fpGetPr
+    module procedure fpGetPr_<real,c_double,0>
+    module procedure fpGetPr_<real,c_double,1>
+    module procedure fpGetPr_<real,c_double,2>
+    module procedure fpGetPr_<real,c_double,3>
+    module procedure fpGetPr_<real,c_double,4>
+    module procedure fpGetPr_<real,c_double,5>
+    module procedure fpGetPr_<real,c_double,6>
+    !module procedure fpGetPr_<real,c_double,7>
+    module procedure fpGetPr_<integer,c_int16_t,0>
+    module procedure fpGetPr_<integer,c_int16_t,1>
+    module procedure fpGetPr_<integer,c_int16_t,2>
+    module procedure fpGetPr_<integer,c_int16_t,3>
+    module procedure fpGetPr_<integer,c_int16_t,4>
+    module procedure fpGetPr_<integer,c_int16_t,5>
+    module procedure fpGetPr_<integer,c_int16_t,6>
+    !module procedure fpGetPr_<integer,c_int16_t,7>
+    module procedure fpGetPr_<integer,c_int8_t,0>
+    module procedure fpGetPr_<integer,c_int8_t,1>
+    module procedure fpGetPr_<integer,c_int8_t,2>
+    module procedure fpGetPr_<integer,c_int8_t,3>
+    module procedure fpGetPr_<integer,c_int8_t,4>
+    module procedure fpGetPr_<integer,c_int8_t,5>
+    module procedure fpGetPr_<integer,c_int8_t,6>
+    !module procedure fpGetPr_<integer,c_int8_t,7>
+  end interface
+
+  ! rank-only templates
+  interface fpGetCells
+    module procedure fpGetCells_<1>
+    module procedure fpGetCells_<2>
+    module procedure fpGetCells_<3>
+    module procedure fpGetCells_<4>
+    module procedure fpGetCells_<5>
+    module procedure fpGetCells_<6>
+    module procedure fpGetCells_<7>
+  end interface
+
+  ! AutoInterface will provide all other procedures
+  AutoInterface
+  end AutoInterface
+
+  contains
+
+  template <class data_type, class data_kind, class data_rank>
+  subroutine fpGetPr_(fp, mx)
+!-ARG
+    data_type(kind=data_kind), pointer, intent(out) :: REPIDX(fp,:,data_rank)
+    mwPointer, intent(in) :: mx
+!-LOC
+    mwPointer :: pr
+    mwSize, pointer :: dims(:)
+    mwSize :: N(1), dimz(data_rank)
+    type(c_ptr) :: prc
+!-----
+    Specialization
+      template <real, c_double, *>
+        if( mxIsDouble(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+
+      template <real, c_float, *>
+        if( mxIsSingle(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+
+      template <integer, c_int8_t, *>
+        if( mxIsInt8(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+
+      template <integer, c_int16_t, *>
+        if( mxIsInt16(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+
+      template <integer, c_int32_t, *>
+        if( mxIsInt32(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+
+      template <integer, c_int64_t, *>
+        if( mxIsInt64(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+    end Specialization
+    Specialization
+      template <*, *, 0>
+        if( mxGetNumberOfElements( mx ) == 1 ) then
+          pr = mxGetData(mx)
+          prc = transfer(pr, prc)
+          call c_f_pointer(prc, fp)
+
+      template <*, *, 1>
+        N(1) = mxGetNumberOfElements( mx )
+        if( N(1) > 0 ) then
+          pr = mxGetData(mx)
+          prc = transfer(pr, prc)
+          call c_f_pointer(prc, fp, N)
+
+      template <*, *, 2>
+        if( mxGetNumberOfDimensions(mx) == 2 .and. &
+            mxGetNumberOfElements(mx) > 0) then
+          pr = mxGetData(mx)
+          prc = transfer(pr, prc)
+          dims => fpGetDimensions(mx)
+          call c_f_pointer(prc, fp, dims)
+
+      template <>
+        dims => fpGetDimensions(mx)
+        if( size(dims) <= data_rank .and. &
+            mxGetNumberOfElements(mx) > 0 ) then
+          dimz = 1
+          dimz(1:size(dims)) = dims
+          pr = mxGetData(mx)
+          prc = transfer(pr, prc)
+          call c_f_pointer(prc, fp, dimz)
+    end Specialization
+      else
+        nullify( fp )
+      endif
+    else
+      nullify( fp )
+    endif
+  end subroutine fpGetPr_
+
+  subroutine fpGetPi_(fp, mx) as fpGetPi
+!-ARG
+    data_type(kind=data_kind), pointer, intent(out) :: REPIDX(fp,:,data_rank)
+    mwPointer, intent(in) :: mx
+!-LOC
+    mwPointer :: pi
+    mwSize, pointer :: dims(:)
+    mwSize :: N(1), dimz(data_rank)
+    type(c_ptr) :: pic
+!-----
+    Specialization
+      template <real, c_double, *>
+        if( mxIsDouble(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
+            mxIsComplex(mx) == 1 ) then
+
+      template <real,c_float,*>
+        if( mxIsSingle(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
+            mxIsComplex(mx) == 1 ) then
+
+      template <integer,c_int8_t,*>
+        if( mxIsInt8(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
+            mxIsComplex(mx) == 1 ) then
+
+      template <integer,c_int16_t,*>
+        if( mxIsInt16(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
+            mxIsComplex(mx) == 1 ) then
+
+      template <integer,c_int32_t,*>
+        if( mxIsInt32(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
+            mxIsComplex(mx) == 1 ) then
+
+      template <integer,c_int64_t,*>
+        if( mxIsInt64(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
+            mxIsComplex(mx) == 1 ) then
+    end Specialization
+    Specialization
+      template <*, *, 0>
+        if( mxGetNumberOfElements( mx ) == 1 ) then
+          pi = mxGetImagData(mx)
+          pic = transfer(pi, pic)
+          call c_f_pointer(pic, fp)
+
+      template <*, *, 1>
+        N(1) = mxGetNumberOfElements( mx )
+        if( N(1) > 0 ) then
+          pi = mxGetImagData(mx)
+          pic = transfer(pi, pic)
+          call c_f_pointer(pic, fp, N)
+
+      template <*, *, 2>
+        if( mxGetNumberOfDimensions(mx) == 2 .and. &
+            mxGetNumberOfElements(mx) > 0) then
+          pi = mxGetImagData(mx)
+          pic = transfer(pi, pic)
+          dims => fpGetDimensions(mx)
+          call c_f_pointer(pic, fp, dims)
+
+      template <>
+        dims => fpGetDimensions(mx)
+        if( size(dims) <= data_rank .and. &
+            mxGetNumberOfElements(mx) > 0 ) then
+          dimz = 1
+          dimz(1:size(dims)) = dims
+          pi = mxGetData(mx)
+          pic = transfer(pi, pic)
+          call c_f_pointer(pic, fp, dimz)
+    end Specialization
+      else
+        nullify( fp )
+      endif
+    else
+      nullify( fp )
+    endif
+  end subroutine fpGetPi_
+
+  subroutine fpAllocate_(fp, dims) as fpAllocate
+    !-ARG
+    data_type(kind=data_kind), pointer, intent(out) :: REPIDX(fp,:,data_rank)
+    mwSize, intent(in) :: dims(data_rank) 
+    !-LOC
+    mwPointer :: mxmemory
+    mwSize :: i, p, n, element
+    type(c_ptr) :: prc
+    character (len=100) :: errmsg
+    !-----
+    nullify(fp)
+    Specialization
+      template <real, c_double, *>
+        element = 8
+        
+      template <real,c_float,*>
+        element = 4
+
+      template <integer,c_int8_t,*>
+        element = 1
+
+      template <integer,c_int16_t,*>
+        element = 2
+
+      template <integer,c_int32_t,*>
+        element = 4
+
+      template <integer,c_int64_t,*>
+        element = 8
+    end Specialization
+
+    Specialization
+      template <*, *, 0>
+        mxmemory = mxMalloc(element)
+        if( mxmemory /= 0 ) then
+          prc = transfer(mxmemory, prc)
+          call c_f_pointer(prc, fp)
+        endif
+
+      template <>
+        n = 1
+        do i=1,data_rank
+          if( dims(i) <= 0 ) return
+          p = n * dims(i)
+          if( (p / dims(i)) /= n ) return
+          n = p
+        enddo
+        p = n * element
+        if( (p / element) /= n ) return
+        mxmemory = mxMalloc(p)
+        if( mxmemory /= 0 ) then
+          prc = transfer(mxmemory, prc)
+          call c_f_pointer(prc, fp, dims)
+        endif
+    end Specialization
+  end subroutine fpAllocate_
+
+  subroutine fpDeallocate_(fp) as fpDeallocate
+    !-ARG
+    data_type(kind=data_kind), pointer :: REPIDX(fp,:,data_rank)
+    !-LOC
+    mwPointer :: mxmemory
+    !-----
+    if( associated(fp) ) then
+      Specialization
+        template < *, *, 0>
+
+        template <>
+        if( size(fp) == 0 ) then 
+          nullify(fp)
+          return
+        endif
+      end Specialization
+      mxmemory = loc( REPIDX(fp,1,data_rank) )
+      call mxFree(mxmemory)
+      nullify(fp)
+    endif
+  end subroutine fpDeallocate_
+
+  function mxArrayHeader_(A, B, orient) result(mx) as mxArrayHeader
+    mwPointer :: mx
+    !-ARG
+    data_type(kind=data_kind), intent(in) :: REPIDX(A,:,data_rank)
+    data_type(kind=data_kind), optional, intent(in) :: REPIDX(B,:,data_rank)
+    character(len=*), optional, intent(in) :: orient
+    !-LOC
+    character(len=6) :: rowcol
+    mwPointer :: address
+    mwSize, parameter :: Zero = 0
+    mwSize :: ndim, i, dims(data_rank), dims2(2)
+    integer :: mxCLASS
+    !-----
+    Specialization
+      template <real, c_double, *>
+        mxCLASS = mxDOUBLE_CLASS
+        
+      template <real,c_float,*>
+        mxCLASS = mxSINGLE_CLASS
+
+      template <integer,c_int8_t,*>
+        mxCLASS = mxINT8_CLASS
+
+      template <integer,c_int16_t,*>
+        mxCLASS = mxINT16_CLASS
+
+      template <integer,c_int32_t,*>
+        mxCLASS = mxINT32_CLASS
+
+      template <integer,c_int64_t,*>
+        mxCLASS = mxINT64_CLASS
+    end Specialization
+    mx = 0
+    Specialization
+      template <*, *, 0>
+        ndim = 2
+        dims2 = 0
+        if( present(B) ) then
+          mx = mxCreateNumericArray(ndim, dims2, mxCLASS, mxCOMPLEX)
+        else
+          mx = mxCreateNumericArray(ndim, dims2, mxCLASS, mxREAL)
+        endif
+        if( mx == 0 ) return
+        dims2 = 1
+        if( mxSetDimensions(mx, dims2, ndim) /= 0 ) then
+          call mxDestroyArray(mx)
+          mx = 0
+          return
+        endif
+        address = loc(A)
+        call mxSetData(mx, address)
+        if( present(B)) then
+          address = loc(B)
+          call mxSetImagData(mx, address)
+        endif
+      
+      template <*, *, 1>
+        
+        ndim = 2
+        dims2 = 0
+        if( present(B) ) then
+          if( size(A) == size(B) ) then
+            mx = mxCreateNumericArray(ndim, dims2, mxCLASS, mxCOMPLEX)
+          else
+            return
+          endif
+        else
+          mx = mxCreateNumericArray(ndim, dims2, mxCLASS, mxREAL)
+        endif
+        if( present(orient) ) then
+          rowcol = uppercase(orient)
+          if( rowcol == 'ROW' ) then
+            dims2(1) = 1
+            dims2(2) = size(A)
+          elseif( rowcol == 'COLUMN' .or. rowcol == 'COL' ) then
+            dims2(1) = size(A)
+            dims2(2) = 1
+          else
+            call mxDestroyArray(mx)
+            mx = 0
+            return
+          endif
+        else
+          dims2(1) = size(A)
+          dims2(2) = 1
+        endif
+        if( mx == 0 .or. size(A) == 0 ) return
+                if( mxSetDimensions(mx, dims2, ndim) /= 0 ) then
+          call mxDestroyArray(mx)
+          mx = 0
+          return
+        endif
+        address = loc( A(1) )
+        call mxSetData(mx, address)
+        if( present(B)) then
+          address = loc( B(1) )
+          call mxSetImagData(mx, address)
+        endif
+
+      template <>
+        ndim = data_rank
+        dims = 0
+        if( present(B) ) then
+          do i=1,ndim
+            if( size(A,i) /= size(B,i) ) then
+              mx = 0
+              return
+            endif
+          enddo
+          mx = mxCreateNumericArray(ndim, dims, mxCLASS, mxCOMPLEX)
+        else
+          mx = mxCreateNumericArray(ndim, dims, mxCLASS, mxREAL)
+        endif
+        if( mx == 0 .or. size(A) == 0 ) return
+        do i=1,ndim
+            dims(i) = size(A,i)
+        enddo
+        if( mxSetDimensions(mx, dims, ndim) /= 0 ) then
+          call mxDestroyArray(mx)
+          mx = 0
+          return
+        endif
+        address = loc( REPIDX(A,1,data_rank) )
+        call mxSetData(mx, address)
+        if( present(B) ) then
+          address = loc( REPIDX(B,1,data_rank) )
+          call mxSetImagData(mx, address )
+        endif
+    end Specialization
+
+  end function mxArrayHeader_
+
+  end template
+!
+!-----
+! fpGetCells
+!-----
+!
+  template <class data_rank>
+  subroutine fpGetCells_( fp, mx )
+!-ARG
+    mwPointer, pointer, intent(out) :: REPIDX(fp,:,data_rank)
+    mwPointer, intent(in) :: mx
+!-LOC
+    mwSize, pointer :: dims(:)
+    mwSize :: ndim, N
+    mwSize :: dimz(data_rank)
+    mwPointer :: cells
+    type(c_ptr) :: ppc
+!-----
+    nullify(fp)
+    if( mxIsCell(mx) == 0 ) return
+    N = mxGetNumberOfElements(mx)
+    if( N <= 0 ) return
+    cells = mxGetData( mx )
+    ppc = transfer(cells, ppc)
+    Specialization
+      template < 1 >
+        dimz(1) = N
+        call c_f_pointer(ppc, fp, dimz)
+
+      template <>
+        dims => fpGetDimensions(mx)
+        ndim = size(dims)
+        if( ndim <= data_rank ) then
+          dimz = 1
+          dimz(1:ndim) = dims
+          call c_f_pointer(ppc, fp, dimz)
+        endif
+    end Specialization
+  end subroutine fpGetCells_
+  end template
+    
+!
+!-----
+! Non-templated subroutines
+!-----
+!
+  function fpGetDimensions( mx ) result(fp)
+    implicit none
+    mwSize, pointer :: fp(:)
+!-ARG
+    mwPointer, intent(in) :: mx
+!-LOC
+    mwSize :: ndim(1)
+    mwPointer :: dims
+    type(c_ptr) :: dimsc
+!-----
+    ndim(1) = mxGetNumberOfDimensions( mx )
+    dims = mxGetDimensions( mx )
+    dimsc = transfer(dims, dimsc)
+    call c_f_pointer(dimsc, fp, ndim)
+  end function fpGetDimensions
+
+  function uppercase(string) result(upper)
+    character(len=*), intent(in) :: string
+    character(len=len(string)) :: upper
+    integer :: j
+    do j = 1,len(string)
+        if(string(j:j) >= "a" .and. string(j:j) <= "z") then
+            upper(j:j) = achar(iachar(string(j:j)) - 32)
+        else
+            upper(j:j) = string(j:j)
+        end if
+    enddo
+  end function uppercase
+
+end module MatlabAPImx
+
+
