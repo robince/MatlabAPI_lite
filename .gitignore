@@ -1,0 +1,7 @@
+.DS_Store
+*.o
+*.obj
+*.mex*
+*.mod
+*.f90
+.*.F90T
