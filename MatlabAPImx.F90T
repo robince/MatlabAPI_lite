@@ -102,16 +102,20 @@ module MatlabAPImx
         if( mxIsSingle(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
 
       template <integer, c_int8_t, *>
-        if( mxIsInt8(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+        if( ( mxIsInt8(mx) == 1 .or. mxIsUint8(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 ) then
 
       template <integer, c_int16_t, *>
-        if( mxIsInt16(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+        if( ( mxIsInt16(mx) == 1 .or. mxIsUint16(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 ) then
 
       template <integer, c_int32_t, *>
-        if( mxIsInt32(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+        if( ( mxIsInt32(mx) == 1 .or. mxIsUint32(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 ) then
 
       template <integer, c_int64_t, *>
-        if( mxIsInt64(mx) == 1 .and. mxIsSparse(mx) == 0 ) then
+        if( ( mxIsInt64(mx) == 1 .or. mxIsUint64(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 ) then
     end Specialization
     Specialization
       template <*, *, 0>
@@ -173,20 +177,20 @@ module MatlabAPImx
             mxIsComplex(mx) == 1 ) then
 
       template <integer,c_int8_t,*>
-        if( mxIsInt8(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
-            mxIsComplex(mx) == 1 ) then
+        if( ( mxIsInt8(mx) == 1 .or. mxIsUint8(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 .and. mxIsComplex(mx) == 1 ) then
 
       template <integer,c_int16_t,*>
-        if( mxIsInt16(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
-            mxIsComplex(mx) == 1 ) then
+        if( ( mxIsInt16(mx) == 1 .or. mxIsUint16(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 .and. mxIsComplex(mx) == 1 ) then
 
       template <integer,c_int32_t,*>
-        if( mxIsInt32(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
-            mxIsComplex(mx) == 1 ) then
+        if( ( mxIsInt32(mx) == 1 .or. mxIsUint32(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 .and. mxIsComplex(mx) == 1 ) then
 
       template <integer,c_int64_t,*>
-        if( mxIsInt64(mx) == 1 .and. mxIsSparse(mx) == 0 .and. &
-            mxIsComplex(mx) == 1 ) then
+        if( ( mxIsInt64(mx) == 1 .or. mxIsUint64(mx) == 1 ) .and. &
+              mxIsSparse(mx) == 0 .and. mxIsComplex(mx) == 1 ) then
     end Specialization
     Specialization
       template <*, *, 0>

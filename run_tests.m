@@ -1,8 +1,8 @@
 cd tests
 
 sizes = [9 9 9 9 9 9 9];
-typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t'};
-castfun = {@double, @int8, @int16};
+typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t' 'integer_c_uint8_t' 'integer_c_uint16_t'};
+castfun = {@double, @int8, @int16, @uint8, @uint16};
 
 % rank 0
 xraw = 9;

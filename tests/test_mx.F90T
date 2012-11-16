@@ -8,6 +8,8 @@ template <class data_type, class data_kind, class data_rank>
 ! outside the module)
 module test_mx
   use iso_c_binding
+  integer, parameter :: c_uint8_t = c_int8_t
+  integer, parameter :: c_uint16_t = c_int16_t
   type Foo
     data_type(kind=data_kind) :: REPIDX_data_rank(x,1)
   end type Foo
@@ -22,6 +24,8 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs) no_mangle
     mwPointer plhs(*), prhs(*)
     integer(4) nlhs, nrhs
 ! LOC
+    integer, parameter :: c_uint8_t = c_int8_t
+    integer, parameter :: c_uint16_t = c_int16_t
     data_type(kind=data_kind), pointer :: REPIDX_data_rank(X,:)
     data_type(kind=data_kind), pointer :: REPIDX_data_rank(Y,:)
     mwSize :: dims(data_rank)
