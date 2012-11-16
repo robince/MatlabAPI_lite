@@ -7,7 +7,7 @@
 !. Download: http://blockit.sourceforge.net/download.html
 !.
 !................................................................................
-!PyF95.hash: 212e49064e8083a4c4b8a6febfc43ddc4ed43db997717f717ede7e594c354181
+!PyF95.hash: 26e7081338a0e3069fd123a02de417bfa33680918a42edc553c68b29f0b84d03
 !PyF95.symbol: InstantiateMex
 !PyF95.end
 ! dummy test module to instantiate the mex function templates
@@ -37,6 +37,22 @@ module InstantiateMex
   type(Foo_integer_c_int8_t_4) :: x
   type(Foo_integer_c_int8_t_5) :: x
   type(Foo_integer_c_int8_t_6) :: x
+  !type(Foo_integer_c_int8_t_7) :: x
+  type(Foo_integer_c_uint16_t_0) :: x
+  type(Foo_integer_c_uint16_t_1) :: x
+  type(Foo_integer_c_uint16_t_2) :: x
+  type(Foo_integer_c_uint16_t_3) :: x
+  type(Foo_integer_c_uint16_t_4) :: x
+  type(Foo_integer_c_uint16_t_5) :: x
+  type(Foo_integer_c_uint16_t_6) :: x
+  !type(Foo_integer_c_int16_t_7) :: x
+  type(Foo_integer_c_uint8_t_0) :: x
+  type(Foo_integer_c_uint8_t_1) :: x
+  type(Foo_integer_c_uint8_t_2) :: x
+  type(Foo_integer_c_uint8_t_3) :: x
+  type(Foo_integer_c_uint8_t_4) :: x
+  type(Foo_integer_c_uint8_t_5) :: x
+  type(Foo_integer_c_uint8_t_6) :: x
   !type(Foo_integer_c_int8_t_7) :: x
 
 end module InstantiateMex

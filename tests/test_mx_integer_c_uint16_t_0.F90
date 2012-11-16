@@ -8,12 +8,12 @@
 !.
 !................................................................................
 !PyF95.hash: 0
-!PyF95.symbol: template_4303319312_integer_c_int16_t_2
-!PyF95.symbol: mexFunction|template_4303319312_integer_c_int16_t_2
-!PyF95.symbol: test_mx_integer_c_int16_t_2|template_4303319312_integer_c_int16_t_2
-!PyF95.symbol: test_explicit_interface|mexFunction|template_4303319312_integer_c_int16_t_2
-!PyF95.symbol: Foo_integer_c_int16_t_2|test_mx_integer_c_int16_t_2|template_4303319312_integer_c_int16_t_2
-!PyF95.symbol: special_4303087760_integer_c_int16_t_2_4322434896|mexFunction|template_4303319312_integer_c_int16_t_2
+!PyF95.symbol: template_4303319312_integer_c_uint16_t_0
+!PyF95.symbol: mexFunction|template_4303319312_integer_c_uint16_t_0
+!PyF95.symbol: test_mx_integer_c_uint16_t_0|template_4303319312_integer_c_uint16_t_0
+!PyF95.symbol: test_explicit_interface|mexFunction|template_4303319312_integer_c_uint16_t_0
+!PyF95.symbol: Foo_integer_c_uint16_t_0|test_mx_integer_c_uint16_t_0|template_4303319312_integer_c_uint16_t_0
+!PyF95.symbol: special_4303087760_integer_c_uint16_t_0_4325062288|mexFunction|template_4303319312_integer_c_uint16_t_0
 !PyF95.end
 #include "fintrf.h"
 #include "repidx.h"
@@ -22,14 +22,14 @@
 ! and trick PyF95++ into creating seperate templated files for
 ! each instantiation (each containing an un-mangled mexFunction
 ! outside the module)
-module test_mx_integer_c_int16_t_2
+module test_mx_integer_c_uint16_t_0
   use iso_c_binding
   integer, parameter :: c_uint8_t = c_int8_t
   integer, parameter :: c_uint16_t = c_int16_t
-  type Foo_integer_c_int16_t_2
-    integer(kind=c_int16_t) :: REPIDX_2(x,1)
-  end type Foo_integer_c_int16_t_2
-end module test_mx_integer_c_int16_t_2
+  type Foo_integer_c_uint16_t_0
+    integer(kind=c_uint16_t) :: REPIDX_0(x,1)
+  end type Foo_integer_c_uint16_t_0
+end module test_mx_integer_c_uint16_t_0
 
 subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     use iso_c_binding
@@ -42,11 +42,11 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
 ! LOC
     integer, parameter :: c_uint8_t = c_int8_t
     integer, parameter :: c_uint16_t = c_int16_t
-    integer(kind=c_int16_t), pointer :: REPIDX_2(X,:)
-    integer(kind=c_int16_t), pointer :: REPIDX_2(Y,:)
-    mwSize :: dims(2)
+    integer(kind=c_uint16_t), pointer :: REPIDX_0(X,:)
+    integer(kind=c_uint16_t), pointer :: REPIDX_0(Y,:)
+    mwSize :: dims(0)
     mwPointer :: mxY, mxloc, fploc, subloc
-        integer(kind=c_int16_t), parameter :: val = 2
+        integer(kind=c_uint16_t), parameter :: val = 2
 
     if( nrhs /= 1 ) then
       call mexErrMsgTxt("This function takes 1 inputs")
@@ -66,7 +66,7 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     endif
 
     mxloc = mxGetData( prhs(1) )
-    fploc = loc( REPIDX_2(X,1) )
+    fploc = loc( REPIDX_0(X,1) )
     if( mxloc /= fploc ) then
       call mexErrMsgTxt("fp and mx locations not equal")
     endif
@@ -110,10 +110,10 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     contains
 
     subroutine test_explicit_interface(X, subloc)
-      integer(kind=c_int16_t), pointer, intent(in) :: REPIDX_2(X,:)
+      integer(kind=c_uint16_t), pointer, intent(in) :: REPIDX_0(X,:)
       mwPointer, intent(out) :: subloc
 
-      subloc = loc( REPIDX_2(X,1) )
+      subloc = loc( REPIDX_0(X,1) )
     end subroutine test_explicit_interface
 
 end subroutine mexFunction
