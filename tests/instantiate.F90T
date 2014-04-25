@@ -42,5 +42,12 @@ module InstantiateMex
   type(Foo<integer,c_uint8_t,5>) :: x
   type(Foo<integer,c_uint8_t,6>) :: x
   !type(Foo<integer,c_int8_t,7>) :: x
+  type(Foo<real,c_float,0>) :: x
+  type(Foo<real,c_float,1>) :: x
+  type(Foo<real,c_float,2>) :: x
+  type(Foo<real,c_float,3>) :: x
+  type(Foo<real,c_float,4>) :: x
+  type(Foo<real,c_float,5>) :: x
+  type(Foo<real,c_float,6>) :: x
 
 end module InstantiateMex

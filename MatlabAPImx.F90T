@@ -64,6 +64,15 @@ module MatlabAPImx
     module procedure fpGetPr_<integer,c_int8_t,5>
     module procedure fpGetPr_<integer,c_int8_t,6>
     !module procedure fpGetPr_<integer,c_int8_t,7>
+    module procedure fpGetPr_<real,c_float,0>
+    module procedure fpGetPr_<real,c_float,1>
+    module procedure fpGetPr_<real,c_float,2>
+    module procedure fpGetPr_<real,c_float,3>
+    module procedure fpGetPr_<real,c_float,4>
+    module procedure fpGetPr_<real,c_float,5>
+    module procedure fpGetPr_<real,c_float,6>
+    !module procedure fpGetPr_<real,c_float,7>
+
   end interface
 
   ! rank-only templates
