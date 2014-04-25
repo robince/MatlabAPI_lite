@@ -7,7 +7,7 @@
 !. Download: http://blockit.sourceforge.net/download.html
 !.
 !................................................................................
-!PyF95.hash: 26e7081338a0e3069fd123a02de417bfa33680918a42edc553c68b29f0b84d03
+!PyF95.hash: a370658160f1af6e48e9a0acc189512926ec6618633e85bf5b2bd782fab145db
 !PyF95.symbol: InstantiateMex
 !PyF95.end
 ! dummy test module to instantiate the mex function templates
@@ -54,5 +54,12 @@ module InstantiateMex
   type(Foo_integer_c_uint8_t_5) :: x
   type(Foo_integer_c_uint8_t_6) :: x
   !type(Foo_integer_c_int8_t_7) :: x
+  type(Foo_real_c_float_0) :: x
+  type(Foo_real_c_float_1) :: x
+  type(Foo_real_c_float_2) :: x
+  type(Foo_real_c_float_3) :: x
+  type(Foo_real_c_float_4) :: x
+  type(Foo_real_c_float_5) :: x
+  type(Foo_real_c_float_6) :: x
 
 end module InstantiateMex
