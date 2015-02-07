@@ -8,3 +8,7 @@
 #define REPIDX_6(arr,idx) arr(idx,idx,idx,idx,idx,idx)
 #define REPIDX_7(arr,idx) arr(idx,idx,idx,idx,idx,idx,idx)
 
+#ifdef PERCENTLOC
+#define loc %LOC
+#endif
+

@@ -75,10 +75,7 @@
 !*************************************************************************************
 
 #include "fintrf.h"
-
-#ifdef PERCENTLOC
-#define loc %LOC
-#endif
+#include "repidx.h"
 
       module MatlabAPIcharMex
       
