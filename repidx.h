@@ -12,3 +12,6 @@
 #define loc %LOC
 #endif
 
+#ifdef USECLOC
+#define loc(x) transfer(c_loc(x),0_C_INTPTR_T)
+#endif

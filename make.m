@@ -4,7 +4,7 @@
 
 % set to false if you don't have PyF95++ and are just using checked out
 % sources
-PROCESS_TEMPLATES = true;
+PROCESS_TEMPLATES = false;
 % mex options
 DEBUG = false;
 VERBOSE = false;
@@ -67,7 +67,8 @@ if LARGEARRAY,  ARGS{end+1} = '-largeArrayDims';
 else            ARGS{end+1} = '-compatibleArrayDims'; end
 if DEBUG,       ARGS{end+1} = '-g'; end
 if VERBOSE,     ARGS{end+1} = '-v'; end
-
+% use C_LOC to get addresses (LOC is broken on Windows ifort 15)
+ARGS{end+1} = '-DUSECLOC';
 
 % MatlabAPImx
 MEXARGS = ARGS;
@@ -84,6 +85,7 @@ mex(MEXARGS{:})
 %%
 % Tests
 cd tests
+
 rank = 0:6;
 typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t' 'integer_c_uint8_t' 'integer_c_uint16_t'};
 for ri=1:length(rank)
