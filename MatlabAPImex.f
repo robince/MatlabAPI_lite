@@ -401,8 +401,8 @@
 !-----
       mx(1) = mxCreateDoubleScalar(handle)
       mx(2) = mxCreateString(property)
-      call mexSetTrapFlag(1)
-      trapflag = mexCallMATLAB(1, my, 2, mx, "get")
+      call mexSetTrapFlag(1_4)
+      trapflag = mexCallMATLAB(1_4, my, 2_4, mx, "get")
       call mxDestroyArray(mx(2))
       call mxDestroyArray(mx(1))
       if( trapflag == 0 ) then
@@ -431,8 +431,8 @@
       mx(1) = mxCreateDoubleScalar(handle)
       mx(2) = mxCreateString(property)
       mx(3) = value
-      call mexSetTrapFlag(1)
-      mexSet = mexCallMATLAB(0, answer, 3, mx, "set")
+      call mexSetTrapFlag(1_4)
+      mexSet = mexCallMATLAB(0_4, answer, 3_4, mx, "set")
       call mxDestroyArray(mx(2))
       call mxDestroyArray(mx(1))
       return
@@ -448,13 +448,13 @@
       mwSize, external :: mxGetNumberOfElements
       integer*4, external :: mxGetString
 !-LOC
-      mwPointer rhs(1), lhs(1)
+      integer rhs(1), lhs(1)
       mwPointer mx
       integer(4) k
       mwIndex i, n
 !-----
       nullify(fp)
-      k = mexCallMATLAB(1, lhs, 0, rhs, "whos") ! Get list of variables
+      k = mexCallMATLAB(1_4, lhs, 0_4, rhs, "whos") ! Get list of variables
       if( k == 0 ) then
           n = mxGetNumberOfElements(lhs(1)) ! Get number of variables
           if( n /= 0 ) then

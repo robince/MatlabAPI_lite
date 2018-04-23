@@ -331,7 +331,7 @@ module MatlabAPImx
     mwPointer :: address
     mwSize, parameter :: Zero = 0
     mwSize :: ndim, i, dims(data_rank), dims2(2)
-    integer :: mxCLASS
+    integer(4) :: mxCLASS
     !-----
     Specialization
       template <real, c_double, *>
