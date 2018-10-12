@@ -448,7 +448,7 @@
       mwSize, external :: mxGetNumberOfElements
       integer*4, external :: mxGetString
 !-LOC
-      integer rhs(1), lhs(1)
+      mwPointer rhs(1), lhs(1)
       mwPointer mx
       integer(4) k
       mwIndex i, n
