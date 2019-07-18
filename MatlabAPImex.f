@@ -223,9 +223,10 @@
 !      mwPointer, intent(in) :: value
 !      end function mexSet
 !-----
-      subroutine mexSetTrapFlag(trapflag)
-      integer(4), intent(in) :: trapflag
-      end subroutine mexSetTrapFlag
+! this function has been removed in R2018a 
+!      subroutine mexSetTrapFlag(trapflag)
+!      integer(4), intent(in) :: trapflag
+!      end subroutine mexSetTrapFlag
 !-----
       subroutine mexUnlock
       end subroutine mexUnlock
@@ -397,15 +398,14 @@
 !-LOC
       mwPointer mxproperty
       mwPointer mx(2), my(1)
-      integer(4) trapflag
+      mwPointer mxexception
 !-----
       mx(1) = mxCreateDoubleScalar(handle)
       mx(2) = mxCreateString(property)
-      call mexSetTrapFlag(1_4)
-      trapflag = mexCallMATLAB(1_4, my, 2_4, mx, "get")
+      mxexception = mexCallMATLABWithTrap(1_4, my, 2_4, mx, "get")
       call mxDestroyArray(mx(2))
       call mxDestroyArray(mx(1))
-      if( trapflag == 0 ) then
+      if( mxexception == 0 ) then
           mexGet = my(1)
       else
           mexGet = 0
@@ -427,14 +427,17 @@
 !-LOC
       mwPointer mx(3)
       mwPointer answer(1)
+      mwPointer mxexception
 !-----
       mx(1) = mxCreateDoubleScalar(handle)
       mx(2) = mxCreateString(property)
       mx(3) = value
-      call mexSetTrapFlag(1_4)
-      mexSet = mexCallMATLAB(0_4, answer, 3_4, mx, "set")
+      mxexception = mexCallMATLABWithTrap(0_4, answer, 3_4, mx, "set")
       call mxDestroyArray(mx(2))
       call mxDestroyArray(mx(1))
+      if( mxexception /= 0) then
+          mexSet = 1 ! indicate error
+      endif
       return
       end function mexSet
       
