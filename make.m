@@ -4,7 +4,7 @@
 
 % set to false if you don't have PyF95++ and are just using checked out
 % sources
-PROCESS_TEMPLATES = false;
+PROCESS_TEMPLATES = true;
 % mex options
 DEBUG = false;
 VERBOSE = false;
@@ -68,7 +68,9 @@ else            ARGS{end+1} = '-compatibleArrayDims'; end
 if DEBUG,       ARGS{end+1} = '-g'; end
 if VERBOSE,     ARGS{end+1} = '-v'; end
 % use C_LOC to get addresses (LOC is broken on Windows ifort 15)
-ARGS{end+1} = '-DUSECLOC';
+% not needed for gfortran
+% ARGS{end+1} = '-DUSECLOC';
+% ARGS{end+1} = '-DPERCENTLOC';
 
 % MatlabAPImx
 MEXARGS = ARGS;
@@ -87,7 +89,7 @@ mex(MEXARGS{:})
 cd tests
 
 rank = 0:6;
-typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t' 'integer_c_uint8_t' 'integer_c_uint16_t'};
+typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t' 'integer_c_int32_t' 'integer_c_int64_t' 'integer_c_uint8_t' 'integer_c_uint16_t'};
 for ri=1:length(rank)
     for tki=1:length(typekind)
         MEXARGS = ARGS;

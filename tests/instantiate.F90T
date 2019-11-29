@@ -10,6 +10,22 @@ module InstantiateMex
   type(Foo<real,c_double,5>) :: x
   type(Foo<real,c_double,6>) :: x
   !type(Foo<real,c_double,7>) :: x
+  type(Foo<integer,c_int32_t,0>) :: x
+  type(Foo<integer,c_int32_t,1>) :: x
+  type(Foo<integer,c_int32_t,2>) :: x
+  type(Foo<integer,c_int32_t,3>) :: x
+  type(Foo<integer,c_int32_t,4>) :: x
+  type(Foo<integer,c_int32_t,5>) :: x
+  type(Foo<integer,c_int32_t,6>) :: x
+  !type(Foo<integer,c_int32_t,7>) :: x
+  type(Foo<integer,c_int64_t,0>) :: x
+  type(Foo<integer,c_int64_t,1>) :: x
+  type(Foo<integer,c_int64_t,2>) :: x
+  type(Foo<integer,c_int64_t,3>) :: x
+  type(Foo<integer,c_int64_t,4>) :: x
+  type(Foo<integer,c_int64_t,5>) :: x
+  type(Foo<integer,c_int64_t,6>) :: x
+  !type(Foo<integer,c_int64_t,7>) :: x
   type(Foo<integer,c_int16_t,0>) :: x
   type(Foo<integer,c_int16_t,1>) :: x
   type(Foo<integer,c_int16_t,2>) :: x
