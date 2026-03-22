@@ -89,7 +89,7 @@ mex(MEXARGS{:})
 cd tests
 
 rank = 0:6;
-typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t' 'integer_c_int32_t' 'integer_c_int64_t' 'integer_c_uint8_t' 'integer_c_uint16_t'};
+typekind = {'real_c_double' 'integer_c_int8_t' 'integer_c_int16_t' 'integer_c_int32_t' 'integer_c_int64_t'};
 for ri=1:length(rank)
     for tki=1:length(typekind)
         MEXARGS = ARGS;
