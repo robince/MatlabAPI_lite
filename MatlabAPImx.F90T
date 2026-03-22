@@ -245,7 +245,7 @@ module MatlabAPImx
             mxGetNumberOfElements(mx) > 0 ) then
           dimz = 1
           dimz(1:size(dims)) = dims
-          pi = mxGetData(mx)
+          pi = mxGetImagData(mx)
           pic = transfer(pi, pic)
           call c_f_pointer(pic, fp, dimz)
     end Specialization
@@ -544,5 +544,4 @@ module MatlabAPImx
   end function uppercase
 
 end module MatlabAPImx
-
 
