@@ -295,13 +295,21 @@ module MatlabAPImx
       template <>
         n = 1
         do i=1,data_rank
-          if( dims(i) <= 0 ) return
-          p = n * dims(i)
-          if( (p / dims(i)) /= n ) return
-          n = p
+          if( dims(i) < 0 ) return
+          if( dims(i) == 0 ) then
+            n = 0
+          elseif( n /= 0 ) then
+            p = n * dims(i)
+            if( (p / dims(i)) /= n ) return
+            n = p
+          endif
         enddo
-        p = n * element
-        if( (p / element) /= n ) return
+        if( n == 0 ) then
+          p = element
+        else
+          p = n * element
+          if( (p / element) /= n ) return
+        endif
         mxmemory = mxMalloc(p)
         if( mxmemory /= 0 ) then
           prc = transfer(mxmemory, prc)
@@ -317,16 +325,7 @@ module MatlabAPImx
     mwPointer :: mxmemory
     !-----
     if( associated(fp) ) then
-      Specialization
-        template < *, *, 0>
-
-        template <>
-        if( size(fp) == 0 ) then 
-          nullify(fp)
-          return
-        endif
-      end Specialization
-      mxmemory = loc( REPIDX_data_rank(fp,1) )
+      mxmemory = loc(fp)
       call mxFree(mxmemory)
       nullify(fp)
     endif
@@ -418,12 +417,13 @@ module MatlabAPImx
           dims2(1) = size(A)
           dims2(2) = 1
         endif
-        if( mx == 0 .or. size(A) == 0 ) return
-                if( mxSetDimensions(mx, dims2, ndim) /= 0 ) then
+        if( mx == 0 ) return
+        if( mxSetDimensions(mx, dims2, ndim) /= 0 ) then
           call mxDestroyArray(mx)
           mx = 0
           return
         endif
+        if( size(A) == 0 ) return
         address = loc( A(1) )
         call mxSetData(mx, address)
         if( present(B)) then
@@ -445,7 +445,7 @@ module MatlabAPImx
         else
           mx = mxCreateNumericArray(ndim, dims, mxCLASS, mxREAL)
         endif
-        if( mx == 0 .or. size(A) == 0 ) return
+        if( mx == 0 ) return
         do i=1,ndim
             dims(i) = size(A,i)
         enddo
@@ -454,6 +454,7 @@ module MatlabAPImx
           mx = 0
           return
         endif
+        if( size(A) == 0 ) return
         address = loc( REPIDX_data_rank(A,1) )
         call mxSetData(mx, address)
         if( present(B) ) then
