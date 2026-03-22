@@ -329,7 +329,16 @@ module MatlabAPImx
     mwPointer :: mxmemory
     !-----
     if( associated(fp) ) then
-      mxmemory = loc(fp)
+      Specialization
+        template < *, *, 0>
+
+        template <>
+        if( size(fp) == 0 ) then
+          nullify(fp)
+          return
+        endif
+      end Specialization
+      mxmemory = loc( REPIDX_data_rank(fp,1) )
       call mxFree(mxmemory)
       nullify(fp)
     endif
