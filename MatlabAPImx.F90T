@@ -299,21 +299,13 @@ module MatlabAPImx
       template <>
         n = 1
         do i=1,data_rank
-          if( dims(i) < 0 ) return
-          if( dims(i) == 0 ) then
-            n = 0
-          elseif( n /= 0 ) then
-            p = n * dims(i)
-            if( (p / dims(i)) /= n ) return
-            n = p
-          endif
+          if( dims(i) <= 0 ) return
+          p = n * dims(i)
+          if( (p / dims(i)) /= n ) return
+          n = p
         enddo
-        if( n == 0 ) then
-          p = element
-        else
-          p = n * element
-          if( (p / element) /= n ) return
-        endif
+        p = n * element
+        if( (p / element) /= n ) return
         mxmemory = mxMalloc(p)
         if( mxmemory /= 0 ) then
           prc = transfer(mxmemory, prc)
