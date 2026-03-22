@@ -409,6 +409,7 @@
           mexGet = my(1)
       else
           mexGet = 0
+          call mxDestroyArray(mxexception)
       endif
       return
       end function mexGet
@@ -435,7 +436,9 @@
       mxexception = mexCallMATLABWithTrap(0_4, answer, 3_4, mx, "set")
       call mxDestroyArray(mx(2))
       call mxDestroyArray(mx(1))
+      mexSet = 0
       if( mxexception /= 0) then
+          call mxDestroyArray(mxexception)
           mexSet = 1 ! indicate error
       endif
       return
