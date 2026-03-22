@@ -9,9 +9,9 @@ xraw = 9;
 for tki=1:length(typekind)
     xtest = castfun{tki}(xraw);
     fun = ['test_mx_' typekind{tki} '_0'];
-    y = eval([fun '(xtest)']);
-    if y ~= 2*xtest
-        error(sprintf('Doubling test failed for %s rank %d',typekind{tki},0));
+    y = feval(fun, xtest);
+    if ~isequal(y, 2*xtest)
+        error('Doubling test failed for %s rank %d', typekind{tki}, 0);
     end
 end
 
@@ -20,9 +20,9 @@ xraw = 9*ones(9,1);
 for tki=1:length(typekind)
     xtest = castfun{tki}(xraw);
     fun = ['test_mx_' typekind{tki} '_1'];
-    y = eval([fun '(xtest)']);
-    if y ~= 2*xtest
-        error(sprintf('Doubling test failed for %s rank %d',typekind{tki},0));
+    y = feval(fun, xtest);
+    if ~isequal(y, 2*xtest)
+        error('Doubling test failed for %s rank %d', typekind{tki}, 1);
     end
 end
 
@@ -34,9 +34,9 @@ for ri=1:length(rank)
     for tki=1:length(typekind)
         xtest = castfun{tki}(xraw);
         fun = ['test_mx_' typekind{tki} '_' num2str(rank(ri))];
-        y = eval([fun '(xtest)']);
-        if y ~= 2*xtest
-            error(sprintf('Doubling test failed for %s rank %d',typekind{tki},0));
+        y = feval(fun, xtest);
+        if ~isequal(y, 2*xtest)
+            error('Doubling test failed for %s rank %d', typekind{tki}, rank(ri));
         end
     end
 end
