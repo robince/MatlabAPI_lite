@@ -25,6 +25,11 @@ def parse_args():
     parser.add_argument(
         "action",
         choices=[
+            "generate-main",
+            "generate-tests",
+            "build-matlabapimx",
+            "build-matlabapimex",
+            "build-test",
             "generate",
             "build-core",
             "build-tests",
@@ -43,6 +48,7 @@ def parse_args():
     parser.add_argument("--large-array-dims", choices=["true", "false"], default="true")
     parser.add_argument("--debug-mex", choices=["true", "false"], default="false")
     parser.add_argument("--verbose-mex", choices=["true", "false"], default="false")
+    parser.add_argument("--test-source", default="")
     parser.add_argument("--stamp", default="")
     return parser.parse_args()
 
@@ -93,6 +99,11 @@ def ensure_pyf95pp(args):
 
 
 def generate(args):
+    generate_main(args)
+    generate_tests(args)
+
+
+def generate_main(args):
     if not process_templates_enabled(args):
         print("Skipping template generation because process_templates=false")
         return
@@ -123,6 +134,26 @@ def generate(args):
         env=env,
     )
 
+
+def generate_tests(args):
+    if not process_templates_enabled(args):
+        print("Skipping template generation because process_templates=false")
+        return
+
+    ensure_pyf95pp(args)
+
+    root = Path(args.source_root)
+    env = os.environ.copy()
+    if args.pyf95pp_pythonpath:
+        extra_path = args.pyf95pp_pythonpath
+        if env.get("PYTHONPATH"):
+            extra_path = extra_path + os.pathsep + env["PYTHONPATH"]
+        env["PYTHONPATH"] = extra_path
+
+    python_cmd = shell_split(args.pyf95pp_python)
+    if not python_cmd:
+        raise SystemExit("Empty --pyf95pp-python command")
+
     run_command(
         python_cmd
         + [
@@ -137,6 +168,11 @@ def generate(args):
 
 
 def build_core(args):
+    build_matlabapimx(args)
+    build_matlabapimex(args)
+
+
+def build_matlabapimx(args):
     root = Path(args.source_root)
     mex_cmd = shell_split(args.mex_cmd)
     if not mex_cmd:
@@ -144,10 +180,25 @@ def build_core(args):
 
     base_args = mex_args(args)
     run_command(mex_cmd + base_args + ["-c", "MatlabAPImx.F90"], root)
+
+
+def build_matlabapimex(args):
+    root = Path(args.source_root)
+    mex_cmd = shell_split(args.mex_cmd)
+    if not mex_cmd:
+        raise SystemExit("Empty --mex-cmd command")
+
+    base_args = mex_args(args)
     run_command(mex_cmd + base_args + ["-c", "MatlabAPImex.f"], root)
 
 
 def build_tests(args):
+    for rank in TEST_RANKS:
+        for typekind in TEST_TYPEKINDS:
+            build_test(args, f"test_mx_{typekind}_{rank}.F90")
+
+
+def build_test(args, source_name=None):
     root = Path(args.source_root)
     mex_cmd = shell_split(args.mex_cmd)
     if not mex_cmd:
@@ -157,20 +208,21 @@ def build_tests(args):
     objext = object_ext()
     tests_dir = root / "tests"
 
-    for rank in TEST_RANKS:
-        for typekind in TEST_TYPEKINDS:
-            source = f"test_mx_{typekind}_{rank}.F90"
-            command = (
-                mex_cmd
-                + base_args
-                + [
-                    "-I..",
-                    source,
-                    os.path.join("..", f"MatlabAPImx.{objext}"),
-                    os.path.join("..", f"MatlabAPImex.{objext}"),
-                ]
-            )
-            run_command(command, tests_dir)
+    source = source_name or args.test_source
+    if not source:
+        raise SystemExit("Missing --test-source for build-test")
+
+    command = (
+        mex_cmd
+        + base_args
+        + [
+            "-I..",
+            source,
+            os.path.join("..", f"MatlabAPImx.{objext}"),
+            os.path.join("..", f"MatlabAPImex.{objext}"),
+        ]
+    )
+    run_command(command, tests_dir)
 
 
 def build_all(args):
@@ -213,7 +265,17 @@ def clean(args):
 def main():
     args = parse_args()
     try:
-        if args.action == "generate":
+        if args.action == "generate-main":
+            generate_main(args)
+        elif args.action == "generate-tests":
+            generate_tests(args)
+        elif args.action == "build-matlabapimx":
+            build_matlabapimx(args)
+        elif args.action == "build-matlabapimex":
+            build_matlabapimex(args)
+        elif args.action == "build-test":
+            build_test(args)
+        elif args.action == "generate":
             generate(args)
         elif args.action == "build-core":
             build_core(args)

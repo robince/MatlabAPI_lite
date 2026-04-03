@@ -57,6 +57,17 @@ meson compile -C builddir
 meson test -C builddir
 ```
 
+The Meson graph tracks template generation and mex compilation incrementally. If you change one generated test source, only that mex target rebuilds; if you change a template, Meson reruns the relevant template-generation step and the binaries that depend on it. The individual `mex` invocations are serialized because parallel `mex` processes were not reliable in this environment.
+
+If your MATLAB `mex` configuration changes outside Meson, such as switching compiler toolchains or changing `mex -setup`, Meson will not detect that automatically because the source files are unchanged. In that case, force a full binary rebuild while keeping the generated `.F90` files with:
+
+```sh
+meson compile -C builddir clean-artifacts
+meson compile -C builddir
+```
+
+`clean-artifacts` removes compiled outputs such as `.o`, `.obj`, `.mod`, and `.mex*`, but leaves template outputs alone. Use that when you want to rebuild all binaries without reprocessing templates.
+
 Additional convenience targets are available through Meson:
 
 ```sh
