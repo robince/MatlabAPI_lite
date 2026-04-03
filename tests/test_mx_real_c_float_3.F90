@@ -8,12 +8,12 @@
 !.
 !................................................................................
 !PyF95.hash: 0
-!PyF95.symbol: template_4303319312_real_c_float_3
-!PyF95.symbol: mexFunction|template_4303319312_real_c_float_3
-!PyF95.symbol: test_mx_real_c_float_3|template_4303319312_real_c_float_3
-!PyF95.symbol: test_explicit_interface|mexFunction|template_4303319312_real_c_float_3
-!PyF95.symbol: Foo_real_c_float_3|test_mx_real_c_float_3|template_4303319312_real_c_float_3
-!PyF95.symbol: special_4303087760_real_c_float_3_4328023632|mexFunction|template_4303319312_real_c_float_3
+!PyF95.symbol: template_140633872621264_real_c_float_3
+!PyF95.symbol: mexFunction|template_140633872621264_real_c_float_3
+!PyF95.symbol: test_mx_real_c_float_3|template_140633872621264_real_c_float_3
+!PyF95.symbol: test_explicit_interface|mexFunction|template_140633872621264_real_c_float_3
+!PyF95.symbol: Foo_real_c_float_3|test_mx_real_c_float_3|template_140633872621264_real_c_float_3
+!PyF95.symbol: special_140633872350224_real_c_float_3_140632932880144|mexFunction|template_140633872621264_real_c_float_3
 !PyF95.end
 #include "fintrf.h"
 #include "repidx.h"
@@ -24,8 +24,6 @@
 ! outside the module)
 module test_mx_real_c_float_3
   use iso_c_binding
-  integer, parameter :: c_uint8_t = c_int8_t
-  integer, parameter :: c_uint16_t = c_int16_t
   type Foo_real_c_float_3
     real(kind=c_float) :: REPIDX_3(x,1)
   end type Foo_real_c_float_3
@@ -40,8 +38,6 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     mwPointer plhs(*), prhs(*)
     integer(4) nlhs, nrhs
 ! LOC
-    integer, parameter :: c_uint8_t = c_int8_t
-    integer, parameter :: c_uint16_t = c_int16_t
     real(kind=c_float), pointer :: REPIDX_3(X,:)
     real(kind=c_float), pointer :: REPIDX_3(Y,:)
     mwSize :: dims(3)
