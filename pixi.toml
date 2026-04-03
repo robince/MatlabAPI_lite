@@ -4,7 +4,7 @@ channels = [
   "https://conda.anaconda.org/conda-forge/label/cf202003",
   "conda-forge"
 ]
-platforms = ["osx-64"]
+platforms = ["osx-64", "linux-64"]
 
 [dependencies]
 python = "2.7.*"

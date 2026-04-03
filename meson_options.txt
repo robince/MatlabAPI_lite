@@ -1,0 +1,62 @@
+option(
+  'process_templates',
+  type : 'boolean',
+  value : true,
+  description : 'Run PyF95++ before compilation',
+)
+
+option(
+  'pyf95pp_python',
+  type : 'string',
+  value : 'python',
+  description : 'Command used to run PyF95++ (for example "pixi run python")',
+)
+
+option(
+  'pyf95pp_script',
+  type : 'string',
+  value : '',
+  description : 'Path to the PyF95++ entry script',
+)
+
+option(
+  'pyf95pp_pythonpath',
+  type : 'string',
+  value : '',
+  description : 'PYTHONPATH entry containing the blockit package',
+)
+
+option(
+  'mex_cmd',
+  type : 'string',
+  value : 'mex',
+  description : 'Command used to invoke MATLAB mex',
+)
+
+option(
+  'matlab_cmd',
+  type : 'string',
+  value : 'matlab',
+  description : 'Command used to invoke MATLAB in batch mode',
+)
+
+option(
+  'large_array_dims',
+  type : 'boolean',
+  value : true,
+  description : 'Pass -largeArrayDims instead of -compatibleArrayDims',
+)
+
+option(
+  'debug_mex',
+  type : 'boolean',
+  value : false,
+  description : 'Pass -g to mex',
+)
+
+option(
+  'verbose_mex',
+  type : 'boolean',
+  value : false,
+  description : 'Pass -v to mex',
+)

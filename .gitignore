@@ -5,3 +5,7 @@
 *.mod
 *genmod.f90
 .*.F90T
+build/
+builddir/
+*.pyc
+__pycache__
