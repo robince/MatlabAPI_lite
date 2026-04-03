@@ -1,0 +1,12 @@
+[workspace]
+name = "pyf95pp-legacy"
+channels = [
+  "https://conda.anaconda.org/conda-forge/label/cf202003",
+  "conda-forge"
+]
+platforms = ["osx-64", "linux-64"]
+
+[dependencies]
+python = "2.7.*"
+pip = "*"
+setuptools = "<45"

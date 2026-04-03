@@ -8,12 +8,12 @@
 !.
 !................................................................................
 !PyF95.hash: 0
-!PyF95.symbol: template_4303319312_integer_c_int32_t_3
-!PyF95.symbol: mexFunction|template_4303319312_integer_c_int32_t_3
-!PyF95.symbol: test_mx_integer_c_int32_t_3|template_4303319312_integer_c_int32_t_3
-!PyF95.symbol: test_explicit_interface|mexFunction|template_4303319312_integer_c_int32_t_3
-!PyF95.symbol: Foo_integer_c_int32_t_3|test_mx_integer_c_int32_t_3|template_4303319312_integer_c_int32_t_3
-!PyF95.symbol: special_4303087760_integer_c_int32_t_3_4435430800|mexFunction|template_4303319312_integer_c_int32_t_3
+!PyF95.symbol: template_140633872621264_integer_c_int32_t_3
+!PyF95.symbol: mexFunction|template_140633872621264_integer_c_int32_t_3
+!PyF95.symbol: test_mx_integer_c_int32_t_3|template_140633872621264_integer_c_int32_t_3
+!PyF95.symbol: test_explicit_interface|mexFunction|template_140633872621264_integer_c_int32_t_3
+!PyF95.symbol: Foo_integer_c_int32_t_3|test_mx_integer_c_int32_t_3|template_140633872621264_integer_c_int32_t_3
+!PyF95.symbol: special_140633872350224_integer_c_int32_t_3_140633873578960|mexFunction|template_140633872621264_integer_c_int32_t_3
 !PyF95.end
 #include "fintrf.h"
 #include "repidx.h"
@@ -24,8 +24,6 @@
 ! outside the module)
 module test_mx_integer_c_int32_t_3
   use iso_c_binding
-  integer, parameter :: c_uint8_t = c_int8_t
-  integer, parameter :: c_uint16_t = c_int16_t
   type Foo_integer_c_int32_t_3
     integer(kind=c_int32_t) :: REPIDX_3(x,1)
   end type Foo_integer_c_int32_t_3
@@ -40,8 +38,6 @@ subroutine mexFunction(nlhs, plhs, nrhs, prhs)
     mwPointer plhs(*), prhs(*)
     integer(4) nlhs, nrhs
 ! LOC
-    integer, parameter :: c_uint8_t = c_int8_t
-    integer, parameter :: c_uint16_t = c_int16_t
     integer(kind=c_int32_t), pointer :: REPIDX_3(X,:)
     integer(kind=c_int32_t), pointer :: REPIDX_3(Y,:)
     mwSize :: dims(3)

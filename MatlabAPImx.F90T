@@ -245,7 +245,7 @@ module MatlabAPImx
             mxGetNumberOfElements(mx) > 0 ) then
           dimz = 1
           dimz(1:size(dims)) = dims
-          pi = mxGetData(mx)
+          pi = mxGetImagData(mx)
           pic = transfer(pi, pic)
           call c_f_pointer(pic, fp, dimz)
     end Specialization
@@ -325,7 +325,7 @@ module MatlabAPImx
         template < *, *, 0>
 
         template <>
-        if( size(fp) == 0 ) then 
+        if( size(fp) == 0 ) then
           nullify(fp)
           return
         endif
@@ -422,12 +422,13 @@ module MatlabAPImx
           dims2(1) = size(A)
           dims2(2) = 1
         endif
-        if( mx == 0 .or. size(A) == 0 ) return
-                if( mxSetDimensions(mx, dims2, ndim) /= 0 ) then
+        if( mx == 0 ) return
+        if( mxSetDimensions(mx, dims2, ndim) /= 0 ) then
           call mxDestroyArray(mx)
           mx = 0
           return
         endif
+        if( size(A) == 0 ) return
         address = loc( A(1) )
         call mxSetData(mx, address)
         if( present(B)) then
@@ -449,7 +450,7 @@ module MatlabAPImx
         else
           mx = mxCreateNumericArray(ndim, dims, mxCLASS, mxREAL)
         endif
-        if( mx == 0 .or. size(A) == 0 ) return
+        if( mx == 0 ) return
         do i=1,ndim
             dims(i) = size(A,i)
         enddo
@@ -458,6 +459,7 @@ module MatlabAPImx
           mx = 0
           return
         endif
+        if( size(A) == 0 ) return
         address = loc( REPIDX_data_rank(A,1) )
         call mxSetData(mx, address)
         if( present(B) ) then
@@ -544,5 +546,3 @@ module MatlabAPImx
   end function uppercase
 
 end module MatlabAPImx
-
-
