@@ -52,7 +52,7 @@ def shell_split(command):
 
 
 def run_command(command, cwd, env=None):
-    print("+", " ".join(shlex.quote(part) for part in command))
+    print("+", " ".join(shlex.quote(part) for part in command), flush=True)
     subprocess.run(command, cwd=str(cwd), env=env, check=True)
 
 
@@ -185,7 +185,17 @@ def run_tests(args):
     if not matlab_cmd:
         raise SystemExit("Empty --matlab-cmd command")
 
-    command = matlab_cmd + ["-batch", "run('run_tests.m')"]
+    matlab_script = (
+        "try, "
+        "cd('{root}'); "
+        "run_tests; "
+        "catch ME, "
+        "disp(getReport(ME,'extended')); "
+        "exit(1); "
+        "end; "
+        "exit(0);"
+    ).format(root=str(root).replace("'", "''"))
+    command = matlab_cmd + ["-nosplash", "-nodesktop", "-r", matlab_script]
     run_command(command, root)
 
 
